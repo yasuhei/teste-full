@@ -14,11 +14,10 @@ const UpdateStatusSchema = z.object({
 export type UpdateStatusDto = z.infer<typeof UpdateStatusSchema>;
 
 const CreateOrdemSchema = z.object({
-  id: z.number(),
   descricao: z.string().min(4, "A descrição tem que conter no minímo 4 digitos"),
   preco: z.number(),
-  dataAbertura: z.string(),
-  dataFinalizacao: z.string(),
+  dataAbertura: z.string().optional(),
+  dataFinalizacao: z.string().optional(),
   status: StatusOrdemServicoEnum,
   clientId: z.string()
 });
@@ -64,6 +63,23 @@ export class OrdemService {
     return { todosServicos: servicos}
   }
 
+  async buscarOrdemParaUmUnicoCliente(id: string): Promise<any> {
+    try {
+      const servico = await this.prisma.ordemServico.findMany({
+        where: { clientId: id }
+      })
+  
+      return servico
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        throw new BadRequestException(error.errors);
+      } else {
+        throw new Error('Erro ao atualizar o status');
+      }
+    }
+
+  }
+
   async atualizarStatus(id: number, status: StatusOrdemServico): Promise<{ message?: string; todosServicos?: OrdemServico[] }> {
     try {
       const parseDto = UpdateStatusSchema.parse({ id, status });
@@ -81,7 +97,6 @@ export class OrdemService {
       }
     }
   }
-
 
   async deleteService(id: number): Promise<{ message: string; ordemServico?: OrdemServico }> {
     try {
