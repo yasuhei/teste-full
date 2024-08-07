@@ -8,7 +8,9 @@ a senha para conectar é rootpassword
 Comando npm run start:dev para rodar o projeto
 
 
-Rotas
+#Rotas
+
+
 POST http://localhost:3000/clientes/criar     Criar um Cliente
 DELETE http://localhost:3000/ordemServicos/Id   Deletar uma ordem de serviço
 POST http://localhost:3000/ordemServicos      Criar uma nova ordem de serviço
