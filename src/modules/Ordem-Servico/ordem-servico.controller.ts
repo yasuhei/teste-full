@@ -16,6 +16,11 @@ export class OrdemServicoController {
     return this.ordemService.criarServico(createOrdemServicoDto);
   }
 
+  @Get("cliente/:id")
+  async buscarUnicaOrdemCliente(@Param('id') id: string) :Promise<any> {
+    return this.ordemService.buscarOrdemParaUmUnicoCliente(id)
+  }
+
 
   @Put('atualizar-status')
   async atualizarStatus(@Body() body: { id: number; status: StatusOrdemServico }): Promise<{ message?: string; todosServicos?: OrdemServico[] }> {

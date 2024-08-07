@@ -20,7 +20,7 @@ model OrdemServico {
   id              Int      @id @default(autoincrement())
   descricao       String
   preco           Decimal
-  dataAbertura    DateTime
+  dataAbertura    DateTime @default(now())
   dataFinalizacao DateTime
 
   status      StatusOrdemServico
